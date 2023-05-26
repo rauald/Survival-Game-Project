@@ -233,4 +233,25 @@ public class PlayerController : MonoBehaviour
 
         theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0f, 0f);
     }
+
+    private bool pauseCameraRotatiom = false;
+
+    public IEnumerator TreeLookCoroutine(Vector3 _target)
+    {
+        pauseCameraRotatiom = true;
+
+        Quaternion direction = Quaternion.LookRotation(_target - theCamera.transform.position);
+        Vector3 eulerValue = direction.eulerAngles;
+        float destionationX = eulerValue.x;
+
+        while(Mathf.Abs(destionationX - currentCameraRotationX) >= 0.5f)
+        {
+            eulerValue = Quaternion.Lerp(theCamera.transform.localRotation, direction, 0.3f).eulerAngles;
+            theCamera.transform.localRotation = Quaternion.Euler(eulerValue.x, 0f, 0f);
+            currentCameraRotationX = theCamera.transform.localEulerAngles.x;
+            yield return null;
+        }
+
+        pauseCameraRotatiom = false;
+    }
 }
