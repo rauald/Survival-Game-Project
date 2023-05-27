@@ -5,7 +5,7 @@ using UnityEngine;
 public class PickaxeController : CloseWeaponController
 {
     // 활성화 여부
-    public static bool isActivate = false;
+    public static bool isActivate = true;
 
     private void Start()
     {
