@@ -191,6 +191,12 @@ public class StatusController : MonoBehaviour
         else currentThirsty -= _count;
     }
 
+    public void IncreaseSP(int _count)
+    {
+        if (currentSp + _count < sp) currentSp += _count;
+        else currentSp = hp;
+    }
+
     public void DecreaseStamina(int _count)
     {
         spUsed = true;
