@@ -22,14 +22,24 @@ public class ItemEffectDatabase : MonoBehaviour
     private StatusController thePlayerStatus;
     [SerializeField]
     private SlotToolTip theSlotToopTip;
+    [SerializeField]
+    private QuickSlotController theQuickSlotController;
 
     private const string HP = "HP", SP = "SP", DP = "DP", HUNGRY = "HUNGRY", THIRSTY = "THIRSTY", SATISFY = "SATISFY";
 
+    // QuickSlotController Â¡°Ë´Ù¸®
+    public void IsAcitvatedQuickSlot(int _num)
+    {
+        theQuickSlotController.IsActivatedQuickSlot(_num);
+    }
+
+    // SlotToolTip Â¡°Ë´Ù¸®
     public void ShowToolTip(Item _item, Vector3 _pos)
     {
         theSlotToopTip.ShowToolTip(_item, _pos);
     }
 
+    // SlotToolTip Â¡°Ë´Ù¸®
     public void HideToopTip()
     {
         theSlotToopTip.HideToolTip();

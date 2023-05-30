@@ -77,6 +77,13 @@ public class InputNumber : MonoBehaviour
             DragSlot.instance.dragSlot.SetSlotCount(-1);
             yield return new WaitForSeconds(0.05f);
         }
+
+        // 현재 아이템을 들고 있고, 그 아이템의 모든 개수를 버릴 경우, 손에 든 아이템 파괴
+        if(int.Parse(text_Preview.text) == _num)
+        {
+            if (QuickSlotController.go_HandItem != null) Destroy(QuickSlotController.go_HandItem);
+        }
+
         DragSlot.instance.dragSlot = null;
         go_Base.SetActive(false);
         activated = false;

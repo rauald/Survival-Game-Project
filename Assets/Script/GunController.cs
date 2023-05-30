@@ -69,7 +69,7 @@ public class GunController : MonoBehaviour
     {
         if (Input.GetButton("Fire1") && currentFireRate <= 0 && !isReload)
         {
-            Fire();
+            //Fire();
         }
     }
 

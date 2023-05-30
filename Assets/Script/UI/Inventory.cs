@@ -12,14 +12,19 @@ public class Inventory : MonoBehaviour
     private GameObject go_InventoryBase;
     [SerializeField]
     private GameObject go_SlotParent;
+    [SerializeField]
+    private GameObject go_QuickSlotParent;
 
     // ½½·Ôµé
-    private Slot[] slots;
+    private Slot[] slots;   // ÀÎº¥Åä¸® ½½·Ôµé
+    private Slot[] quickSlot;   // Äü½½·Ô
+    private bool isNotPut;
 
     // Start is called before the first frame update
     void Start()
     {
         slots = go_SlotParent.GetComponentsInChildren<Slot>();
+        quickSlot = go_QuickSlotParent.GetComponentsInChildren<Slot>();
     }
 
     // Update is called once per frame
@@ -51,28 +56,43 @@ public class Inventory : MonoBehaviour
 
     public void AcquireItem(Item _item, int _count = 1)
     {
+        PutSlot(quickSlot, _item, _count);
+        if (isNotPut) PutSlot(slots, _item, _count);
+
+        if(isNotPut)
+        {
+            Debug.Log("Äü½½·Ô°ú ÀÎº¥Åä¸®°¡ ²ËÃ¡½À´Ï´Ù.");
+        }
+    }
+
+    private void PutSlot(Slot[] _slots, Item _item, int _count)
+    {
         if (Item.ItemType.Equipment != _item.itemType)
         {
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < _slots.Length; i++)
             {
-                if (slots[i].item != null)
+                if (_slots[i].item != null)
                 {
-                    if (slots[i].item.itemName == _item.itemName)
+                    if (_slots[i].item.itemName == _item.itemName)
                     {
-                        slots[i].SetSlotCount(_count);
+                        _slots[i].SetSlotCount(_count);
+                        isNotPut = false;
                         return;
                     }
                 }
             }
         }
 
-        for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < _slots.Length; i++)
         {
-            if (slots[i].item == null)
+            if (_slots[i].item == null)
             {
-                slots[i].Additem(_item, _count);
+                _slots[i].Additem(_item, _count);
+                isNotPut = false;
                 return;
             }
         }
+
+        isNotPut = true;
     }
 }
