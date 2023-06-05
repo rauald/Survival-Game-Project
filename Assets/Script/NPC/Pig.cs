@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class Pig : WeakAnimal
 {
+    protected override void Update()
+    {
+        base.Update();
+        if(theViewAngle.View() && !isDead)
+        {
+            Run(theViewAngle.GetTargetPos());
+        }
+    }
+
     protected override void ReSet()
     {
         base.ReSet();

@@ -187,6 +187,11 @@ public class PlayerController : MonoBehaviour
         applySpeed = walkSpeed;
     }
 
+    public bool GetRun()
+    {
+        return isRun;
+    }
+
     // 움직임 실행
     private void Move()
     {

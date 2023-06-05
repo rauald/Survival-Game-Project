@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Animal : MonoBehaviour
 {
+    protected StatusController thePlayerStatus;
+
     [SerializeField] protected string animalName;  // 동물의 이름
     [SerializeField] protected int hp; // 동물의 체력
 
@@ -15,6 +17,8 @@ public class Animal : MonoBehaviour
     protected bool isAction;  // 행동중인지 아닌지 판별
     protected bool isWalking; // 걷는지 안걱는지 판별
     protected bool isRunning; // 뛰는지 판별
+    protected bool isChasing; // 추적중인지 판별
+    protected bool isAttacking;
     protected bool isDead;    // 죽었는지 판별
 
     [SerializeField] protected float walkTime;    // 걷기 시간
@@ -30,6 +34,7 @@ public class Animal : MonoBehaviour
     [SerializeField] protected BoxCollider boxCol;
     protected AudioSource theAudio;
     protected NavMeshAgent nav;
+    protected FieldOfViewAngle theViewAngle;
 
     [SerializeField] protected AudioClip[] sound_Normal;
     [SerializeField] protected AudioClip sound_Hurt;
@@ -38,6 +43,8 @@ public class Animal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        thePlayerStatus = FindObjectOfType<StatusController>();
+        theViewAngle = GetComponent<FieldOfViewAngle>();
         nav = GetComponent<NavMeshAgent>();
         currentTime = waitTime;
         theAudio = GetComponent<AudioSource>();
@@ -45,7 +52,7 @@ public class Animal : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (!isDead)
         {
@@ -68,7 +75,7 @@ public class Animal : MonoBehaviour
         if (isAction)
         {
             currentTime -= Time.deltaTime;
-            if (currentTime <= 0)
+            if (currentTime <= 0 && !isChasing && !isAttacking)
             {
                 ReSet();
             }
