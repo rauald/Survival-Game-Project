@@ -1037,6 +1037,7 @@ GameObject:
   - component: {fileID: 592958118828918676}
   - component: {fileID: 592958118031866872}
   - component: {fileID: 592958118031866758}
+  - component: {fileID: 4033949317197721312}
   m_Layer: 0
   m_Name: Grass
   m_TagString: Grass
@@ -1051,7 +1052,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 592958118829022132}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.032, y: 0, z: -0.957}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -1105,6 +1106,22 @@ MonoBehaviour:
   item_leaf: {fileID: 11400000, guid: e2909b1e0dea8bc4884e48513b9c913b, type: 2}
   leafCount: 3
   hit_sound: Twig_Hit
+--- !u!54 &4033949317197721312
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592958118829022132}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &592958118829022134
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 989330303101223562}
   - component: {fileID: 989330303157797816}
   - component: {fileID: 989330303157797817}
+  - component: {fileID: 1404641657305543491}
   m_Layer: 0
   m_Name: branch
   m_TagString: Twig
@@ -27,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 989330303099231306}
-  m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.540001, y: -0.11446452, z: 6.340002}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
@@ -117,3 +118,19 @@ MonoBehaviour:
   go_hit_effect_prefab: {fileID: 8188600839369244614, guid: 2b6c4b12a0fef944fb084a267f9d7198, type: 3}
   hit_Sound: Twig_Hit
   broken_Sound: Twig_Broken
+--- !u!54 &1404641657305543491
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989330303099231306}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
