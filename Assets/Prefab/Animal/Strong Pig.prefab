@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1285305993009674673}
   m_Layer: 0
   m_Name: Strong Pig
-  m_TagString: WeakAnimal
+  m_TagString: StrongAnimal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,6 +83,7 @@ MonoBehaviour:
   hp: 2
   walkSpeed: 1
   runSpeed: 4
+  isDead: 0
   walkTime: 5
   waitTime: 4
   runTime: 5
@@ -92,6 +93,11 @@ MonoBehaviour:
   sound_Normal: []
   sound_Hurt: {fileID: 0}
   sound_Dead: {fileID: 0}
+  attackDamage: 10
+  attackDelay: 3
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 1024
   chaseTime: 4
   chaseDelayTime: 0.5
 --- !u!82 &1285305993009674639

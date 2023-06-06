@@ -176,7 +176,7 @@ public class QuickSlotController : MonoBehaviour
     {
         StartCoroutine(theWeaponManager.ChangeWeaponCoroutine("HAND", "¸Ç¼Õ"));
 
-        if(_item != null)
+        if (_item != null)
         {
             StartCoroutine(HandItemCoroutine());
         }
@@ -196,17 +196,22 @@ public class QuickSlotController : MonoBehaviour
         go_HandItem.transform.SetParent(tf_ItemPos);
     }
 
-    public void EatItem()
+    public void DecreaseSelectedItem()
     {
         CoolTimeReset();
         AppearReset();
 
         quickSlots[selectedSlot].SetSlotCount(-1);
 
-        if(quickSlots[selectedSlot].itemCount <= 0) Destroy(go_HandItem);
+        if (quickSlots[selectedSlot].itemCount <= 0) Destroy(go_HandItem);
     }
     public bool GetIsCoolTime()
     {
         return isCoolTime;
+    }
+
+    public Slot GetSelectedSlot()
+    {
+        return quickSlots[selectedSlot];
     }
 }

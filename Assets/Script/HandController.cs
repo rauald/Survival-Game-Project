@@ -25,7 +25,7 @@ public class HandController : CloseWeaponController
         if (Input.GetButtonDown("Fire1") && !theQuickSlotController.GetIsCoolTime())
         {
             currentCloseWeapon.anim.SetTrigger("Eat");
-            theQuickSlotController.EatItem();
+            theQuickSlotController.DecreaseSelectedItem();
         }
     }
 
