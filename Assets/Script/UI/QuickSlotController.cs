@@ -157,7 +157,7 @@ public class QuickSlotController : MonoBehaviour
             {
                 StartCoroutine(theWeaponManager.ChangeWeaponCoroutine(quickSlots[selectedSlot].item.weaponType, quickSlots[selectedSlot].item.itemName));
             }
-            else if (quickSlots[selectedSlot].item.itemType == Item.ItemType.Used)
+            else if (quickSlots[selectedSlot].item.itemType == Item.ItemType.Used || quickSlots[selectedSlot].item.itemType == Item.ItemType.Kit)
             {
                 ChangeHand(quickSlots[selectedSlot].item);
             }
@@ -175,18 +175,22 @@ public class QuickSlotController : MonoBehaviour
     private void ChangeHand(Item _item = null)
     {
         StartCoroutine(theWeaponManager.ChangeWeaponCoroutine("HAND", "¸Ç¼Õ"));
-
         if (_item != null)
         {
-            StartCoroutine(HandItemCoroutine());
+            StartCoroutine(HandItemCoroutine(_item));
         }
     }
 
-    IEnumerator HandItemCoroutine()
+    IEnumerator HandItemCoroutine(Item _item)
     {
         HandController.isActivate = false;
 
         yield return new WaitUntil(() => HandController.isActivate);
+
+        if (_item.itemType == Item.ItemType.Kit)
+        {
+            HandController.currentKit = _item;
+        }
 
         go_HandItem = Instantiate(quickSlots[selectedSlot].item.itemPrefab, tf_ItemPos.position, tf_ItemPos.rotation);
         go_HandItem.GetComponent<Rigidbody>().isKinematic = true;

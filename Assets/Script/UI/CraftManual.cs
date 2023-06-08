@@ -158,6 +158,10 @@ public class CraftManual : MonoBehaviour
         go_Preview = Instantiate(craft_SelectedTab[selectedSlotNumber].go_PreviewPrefab, tf_Player.position + tf_Player.forward, Quaternion.identity);
         go_Prefab = craft_SelectedTab[selectedSlotNumber].go_Prefab;
         isPreviewActivated = true;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         go_BaseUI.SetActive(false);
     }
 
@@ -247,6 +251,9 @@ public class CraftManual : MonoBehaviour
         go_Preview = null;
         go_Prefab = null;
 
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         go_BaseUI.SetActive(false);
 
     }
@@ -259,12 +266,16 @@ public class CraftManual : MonoBehaviour
 
     private void OpenWindow()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         isActivated = true;
         go_BaseUI.SetActive(true);
     }
 
     private void CloseWindow()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         isActivated = false;
         go_BaseUI.SetActive(false);
     }

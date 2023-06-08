@@ -14,7 +14,9 @@ public class ActionController : MonoBehaviour
     private bool dissolveActivated = false; // 고기 해체 가능할 시 true;
     private bool isDissolving = false;      // 고기 해체시
 
-    private bool fireLookActivated = false; // 불을 귽접해서 바라 볼 시 true;
+    private bool fireLookActivated = false; // 불을 근접해서 바라 볼 시 true;
+
+    private bool lookCompouter = false; // 컴퓨터를 바라볼 시 true;
 
 
     private RaycastHit hitInfo; // 충돌체 정보 저장
@@ -35,6 +37,10 @@ public class ActionController : MonoBehaviour
     [SerializeField] 
     private Transform tf_MeatDissolveTool;
     [SerializeField]
+    private ComputerKit theComputer;
+
+
+    [SerializeField]
     private string sound_meat; // 소리 재생
 
     
@@ -53,6 +59,7 @@ public class ActionController : MonoBehaviour
             CanPickUp();
             CanMeat();
             CanDropFire();
+            CanComputerPowerOn();
         }
     }
 
@@ -62,10 +69,24 @@ public class ActionController : MonoBehaviour
         {
             if(hitInfo.transform != null)
             {
-                Debug.Log(hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " 획득했습니다");
                 theInventory.AcquireItem(hitInfo.transform.GetComponent<ItemPickUp>().item);
                 Destroy(hitInfo.transform.gameObject);
                 InfoDisappear();
+            }
+        }
+    }
+
+    private void CanComputerPowerOn()
+    {
+        if (lookCompouter)
+        {
+            if (hitInfo.transform != null)
+            {
+                if (!hitInfo.transform.GetComponent<ComputerKit>().isPowerOn)
+                {
+                    hitInfo.transform.GetComponent<ComputerKit>().PowerOn();
+                    InfoDisappear();
+                }
             }
         }
     }
@@ -162,6 +183,10 @@ public class ActionController : MonoBehaviour
             {
                 FireInfoAppear();
             }
+            else if (hitInfo.transform.tag == "Computer")
+            {
+                ComputerInfoAppear();
+            }
             else InfoDisappear();
         }
         else InfoDisappear();
@@ -205,11 +230,23 @@ public class ActionController : MonoBehaviour
         }
     }
 
+    private void ComputerInfoAppear()
+    {
+        if (!hitInfo.transform.GetComponent<ComputerKit>().isPowerOn)
+        {
+            Reset();
+            lookCompouter = true;
+            actionText.gameObject.SetActive(true);
+            actionText.text = "컴퓨터 가동 " + "<color=yellow>" + "(E)" + "</color>";
+        }
+    }
+
     private void InfoDisappear()
     {
         pickupActivated = false;
         dissolveActivated = false;
         fireLookActivated = false;
+        lookCompouter = false;
         actionText.gameObject.SetActive(false);
     }
 }
