@@ -159,8 +159,7 @@ public class CraftManual : MonoBehaviour
         go_Prefab = craft_SelectedTab[selectedSlotNumber].go_Prefab;
         isPreviewActivated = true;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        GameManager.isOpenCraftManual = false;
 
         go_BaseUI.SetActive(false);
     }
@@ -251,8 +250,7 @@ public class CraftManual : MonoBehaviour
         go_Preview = null;
         go_Prefab = null;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        GameManager.isOpenCraftManual = false;
 
         go_BaseUI.SetActive(false);
 
@@ -266,16 +264,14 @@ public class CraftManual : MonoBehaviour
 
     private void OpenWindow()
     {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        GameManager.isOpenCraftManual = true;
         isActivated = true;
         go_BaseUI.SetActive(true);
     }
 
     private void CloseWindow()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        GameManager.isOpenCraftManual = false;
         isActivated = false;
         go_BaseUI.SetActive(false);
     }

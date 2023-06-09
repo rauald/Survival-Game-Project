@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isActivated)
+        if (isActivated && GameManager.canPlayerMove)
         {
             IsGround();
             TryJump();
@@ -78,11 +78,8 @@ public class PlayerController : MonoBehaviour
             TryCrouch();
             Move();
             MoveCheck();
-            if (!Inventory.inventoryActivated)
-            {
-                CameraRotation();
-                CharacterRotation();
-            }
+            CameraRotation();
+            CharacterRotation();
         }
     }
 

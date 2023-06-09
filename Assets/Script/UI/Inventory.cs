@@ -50,15 +50,13 @@ public class Inventory : MonoBehaviour
 
     private void OpenInventory()
     {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        GameManager.isOpenInventory = true;
         go_InventoryBase.SetActive(true);
     }
 
     private void CloseInventory()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        GameManager.isOpenInventory = false;
         go_InventoryBase.SetActive(false);
     }
 

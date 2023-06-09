@@ -17,6 +17,7 @@ public class ActionController : MonoBehaviour
     private bool fireLookActivated = false; // 불을 근접해서 바라 볼 시 true;
 
     private bool lookCompouter = false; // 컴퓨터를 바라볼 시 true;
+    private bool lookArchemyTable = false;  // 연금 테이블을 바라볼 시 true;
 
 
     private RaycastHit hitInfo; // 충돌체 정보 저장
@@ -49,6 +50,8 @@ public class ActionController : MonoBehaviour
     {
         CheckAction();
         TryAction();
+
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 3, Color.red);
     }
 
     private void TryAction()
@@ -60,6 +63,7 @@ public class ActionController : MonoBehaviour
             CanMeat();
             CanDropFire();
             CanComputerPowerOn();
+            CanArchemyTableOpen();
         }
     }
 
@@ -87,6 +91,18 @@ public class ActionController : MonoBehaviour
                     hitInfo.transform.GetComponent<ComputerKit>().PowerOn();
                     InfoDisappear();
                 }
+            }
+        }
+    }
+
+    private void CanArchemyTableOpen()
+    {
+        if (lookArchemyTable)
+        {
+            if (hitInfo.transform != null)
+            {
+                hitInfo.transform.GetComponent<ArchemyTable>().Window();
+                InfoDisappear();
             }
         }
     }
@@ -187,6 +203,10 @@ public class ActionController : MonoBehaviour
             {
                 ComputerInfoAppear();
             }
+            else if (hitInfo.transform.tag == "ArchemyTable")
+            {
+                ArchemyInfoAppear();
+            }
             else InfoDisappear();
         }
         else InfoDisappear();
@@ -241,12 +261,24 @@ public class ActionController : MonoBehaviour
         }
     }
 
+    private void ArchemyInfoAppear()
+    {
+        if (!hitInfo.transform.GetComponent<ArchemyTable>().GetIsOpen())
+        {
+            Reset();
+            lookArchemyTable = true;
+            actionText.gameObject.SetActive(true);
+            actionText.text = "연금 테이블 조작 " + "<color=yellow>" + "(E)" + "</color>";
+        }
+    }
+
     private void InfoDisappear()
     {
         pickupActivated = false;
         dissolveActivated = false;
         fireLookActivated = false;
         lookCompouter = false;
+        lookArchemyTable = false;
         actionText.gameObject.SetActive(false);
     }
 }

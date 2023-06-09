@@ -55,8 +55,7 @@ public class ComputerKit : MonoBehaviour
 
     public void PowerOn()
     {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        GameManager.isOpenCraftManual = true;
 
         isPowerOn = true;
         go_BaseUI.SetActive(true);
@@ -64,8 +63,7 @@ public class ComputerKit : MonoBehaviour
 
     public void PowerOff()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        GameManager.isOpenCraftManual = false;
 
         isPowerOn = false;
         theToolTip.HideToolTip();
