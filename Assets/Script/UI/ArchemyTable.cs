@@ -11,6 +11,9 @@ public class ArchemyItem
     public string itemDesc;
     public Sprite itemImage;
 
+    public string[] needItemName;
+    public int[] needItemNumber;
+
     public float itemCraftingTime;  // 포션 제조에 걸리느 시간 (5초, 10초, 100초)
 
     public GameObject go_ItemPrefab;
@@ -45,8 +48,25 @@ public class ArchemyTable : MonoBehaviour
     [SerializeField] private GameObject go_Liquid;   // 동작 시키면 액체 등장
     [SerializeField] private Image[] image_CraftingItems;
 
+    // 필요한 컴포넌트
+    [SerializeField] private ArchemyToolTip theToolTip;
+    private AudioSource theAudio;
+    private Inventory theInven;
+    [SerializeField] private AudioClip sound_ButtonClick;
+    [SerializeField] private AudioClip sound_Beep;
+    [SerializeField] private AudioClip sound_Activate;
+    [SerializeField] private AudioClip sound_ExitItem;
+
+    private void PlaySE(AudioClip _clip)
+    {
+        theAudio.clip = _clip;
+        theAudio.Play();
+    }
+
     private void Start()
     {
+        theInven = FindObjectOfType<Inventory>();
+        theAudio = GetComponent<AudioSource>();
         ClearSlot();
         PageSetting();
     }
@@ -98,6 +118,7 @@ public class ArchemyTable : MonoBehaviour
 
     private void DequeueItem()
     {
+        PlaySE(sound_Activate);
         isCrafting = true;
         currentCraftingItem = archemyItemQueue.Dequeue();
 
@@ -144,13 +165,37 @@ public class ArchemyTable : MonoBehaviour
 
     public void ButtonClick(int _buttonNum)
     {
+        PlaySE(sound_ButtonClick);
+
         if(archemyItemQueue.Count < 3)
         {
             int archemyItemArrayNumber = _buttonNum + ((page - 1) * theNumberOfSlot);
+
+            // 인벤토리에서 재료 검색
+            for (int i = 0; i < archemyItems[archemyItemArrayNumber].needItemName.Length; i++)
+            {
+                if(theInven.GetItemCount(archemyItems[archemyItemArrayNumber].needItemName[i]) < archemyItems[archemyItemArrayNumber].needItemNumber[i])
+                {
+                    PlaySE(sound_Beep);
+                    return;
+                }
+            }
+
+            // 인벤토리 재료 감산
+            for (int i = 0; i < archemyItems[archemyItemArrayNumber].needItemName.Length; i++)
+            {
+                theInven.SetItemCount(archemyItems[archemyItemArrayNumber].needItemName[i], archemyItems[archemyItemArrayNumber].needItemNumber[i]);
+            }
+
+            // 제작 시작
             archemyItemQueue.Enqueue(archemyItems[archemyItemArrayNumber]);
 
             image_CraftingItems[archemyItemQueue.Count].gameObject.SetActive(true);
             image_CraftingItems[archemyItemQueue.Count].sprite = archemyItems[archemyItemArrayNumber].itemImage;
+        }
+        else
+        {
+            PlaySE(sound_Beep);
         }
     }
 
@@ -159,12 +204,16 @@ public class ArchemyTable : MonoBehaviour
         isCrafting = false;
         image_CraftingItems[0].gameObject.SetActive(false);
 
+        PlaySE(sound_ExitItem);
+
         Instantiate(currentCraftingItem.go_ItemPrefab, tf_PotionAppearPos.position, Quaternion.identity);
     }
 
     public void UpButton()
     {
-        if(page != 1) page--;
+        PlaySE(sound_ButtonClick);
+
+        if (page != 1) page--;
         else page = 1 + (archemyItems.Length / theNumberOfSlot);
 
         ClearSlot();
@@ -173,6 +222,8 @@ public class ArchemyTable : MonoBehaviour
 
     public void DownButton()
     {
+        PlaySE(sound_ButtonClick);
+
         if (page < 1 + (archemyItems.Length / theNumberOfSlot)) page++;
         else page = 1;
 
@@ -204,5 +255,16 @@ public class ArchemyTable : MonoBehaviour
             btn_ArchemyItems[i - pageArrayStartNumber].gameObject.SetActive(true);
             text_ArchemyItems[i - pageArrayStartNumber].text = archemyItems[i].itemName + "\n" + archemyItems[i].itemDesc;
         }
+    }
+
+    public void ShowToolTip(int _buttonNum)
+    {
+        int archemyItemArrayNumber = _buttonNum + ((page - 1) * theNumberOfSlot);
+        theToolTip.ShowToolTip(archemyItems[archemyItemArrayNumber].needItemName, archemyItems[archemyItemArrayNumber].needItemNumber);
+    }
+
+    public void HideToolTip()
+    {
+        theToolTip.HideToolTip();
     }
 }

@@ -19,6 +19,7 @@ public class ActionController : MonoBehaviour
     private bool lookCompouter = false; // 컴퓨터를 바라볼 시 true;
     private bool lookArchemyTable = false;  // 연금 테이블을 바라볼 시 true;
 
+    private bool lookActivatedTrap = false; // 가동된 함정을 바라볼시 True;
 
     private RaycastHit hitInfo; // 충돌체 정보 저장
 
@@ -64,6 +65,7 @@ public class ActionController : MonoBehaviour
             CanDropFire();
             CanComputerPowerOn();
             CanArchemyTableOpen();
+            CanReInstallTrap();
         }
     }
 
@@ -102,6 +104,18 @@ public class ActionController : MonoBehaviour
             if (hitInfo.transform != null)
             {
                 hitInfo.transform.GetComponent<ArchemyTable>().Window();
+                InfoDisappear();
+            }
+        }
+    }
+
+    private void CanReInstallTrap()
+    {
+        if (lookActivatedTrap)
+        {
+            if (hitInfo.transform != null)
+            {
+                hitInfo.transform.GetComponent<DeadTrap>().ReInstall();
                 InfoDisappear();
             }
         }
@@ -207,6 +221,10 @@ public class ActionController : MonoBehaviour
             {
                 ArchemyInfoAppear();
             }
+            else if (hitInfo.transform.tag == "Trap")
+            {
+                TrapInfoAppear();
+            }
             else InfoDisappear();
         }
         else InfoDisappear();
@@ -272,6 +290,17 @@ public class ActionController : MonoBehaviour
         }
     }
 
+    private void TrapInfoAppear()
+    {
+        if (hitInfo.transform.GetComponent<DeadTrap>().GetIsActivated())
+        {
+            Reset();
+            lookActivatedTrap = true;
+            actionText.gameObject.SetActive(true);
+            actionText.text = "함정 재설치 " + "<color=yellow>" + "(E)" + "</color>";
+        }
+    }
+
     private void InfoDisappear()
     {
         pickupActivated = false;
@@ -279,6 +308,7 @@ public class ActionController : MonoBehaviour
         fireLookActivated = false;
         lookCompouter = false;
         lookArchemyTable = false;
+        lookActivatedTrap = false;
         actionText.gameObject.SetActive(false);
     }
 }
