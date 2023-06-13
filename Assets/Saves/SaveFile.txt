@@ -1,0 +1,1 @@
+{"playerPos":{"x":-0.9119216799736023,"y":1.047656536102295,"z":-1.2787550687789918},"playerRot":{"x":0.0,"y":63.861724853515628,"z":0.0},"invenArrayNumber":[2],"invenItemName":["SubMachineGun1"],"invenItemNumber":[1]}
